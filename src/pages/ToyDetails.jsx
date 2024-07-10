@@ -39,6 +39,8 @@ export function ToyDetails() {
       <h1 className={toy.inStock ? 'green' : 'red'}>
         {toy.inStock ? 'In stock' : 'Not in stock'}
       </h1>
+      <img src={toy.imageUrl}/>
+      <br />
       <button>
         <Link to="/toy">Back</Link>
       </button>

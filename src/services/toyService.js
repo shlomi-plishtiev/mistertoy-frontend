@@ -63,8 +63,10 @@ function getEmptyToy() {
     name: '',
     price: '',
     labels: _getRandomLabels(),
+    imageUrl: "https://images.hellomagazine.com/horizon/square/9f9b151047f8-top-toys-2023-best-kids-toys-for-christmas.jpg"
   }
 }
+
 
 function getToyLabels() {
   return [...labels]

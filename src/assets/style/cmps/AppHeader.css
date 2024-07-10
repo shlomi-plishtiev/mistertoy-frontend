@@ -1,7 +1,7 @@
 .nav-header {
   display: flex;
   justify-content: center; 
-  background-color: #4684ff;
+  background-color: #96cae6;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
@@ -16,7 +16,7 @@
 }
 
 .nav-header a:hover {
-  color: #0400ff; 
+  color: #708cb2; 
 }
 
 .nav-header a.active {

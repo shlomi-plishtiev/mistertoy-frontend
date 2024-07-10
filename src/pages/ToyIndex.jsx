@@ -55,7 +55,7 @@ export function ToyIndex() {
         onSetSort={onSetSort}
       />
       <div style={{ marginBlockStart: '0.5em', textAlign: 'center' }}>
-        <button style={{ marginInline: 0 }}>
+        <button style={{ marginInline: 0,fontSize:'18px' }}>
           <Link to="/toy/edit">Add Toy</Link>
         </button>
       </div>

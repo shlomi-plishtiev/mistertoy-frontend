@@ -45,11 +45,11 @@ export function ToyFilter({ onFilterByName, onFilterByStock, onFilterByLabel, on
         <option value="inStock">In Stock</option>
         <option value="outOfStock">Out of Stock</option>
       </select>
-      <select multiple value={selectedLabels} onChange={handleLabelChange}>
+      {/* <select multiple value={selectedLabels} onChange={handleLabelChange}>
         <option value="Doll">Doll</option>
         <option value="Battery Powered">Battery Powered</option>
         <option value="Baby">Baby</option>
-      </select>
+      </select> */}
       <select value={sortType} onChange={handleSortChange}>
         <option value="">Sort by...</option>
         <option value="name">Name</option>
