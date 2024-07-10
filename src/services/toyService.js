@@ -1,85 +1,89 @@
-import { storageService } from './storageService'
-import { utilService } from './util.service'
-import { httpService } from './http.service'
+import { httpService } from './http.service.js'
+import { utilService } from './util.service.js'
 
-const TOY_KEY = 'toy/'
+const BASE_URL = 'toy/'
+const STORAGE_KEY = 'toyDB'
 
-_createToys()
+const labels = [
+  'On wheels',
+  'Box game',
+  'Art',
+  'Baby',
+  'Doll',
+  'Puzzle',
+  'Outdoor',
+  'Battery Powered',
+]
+
+// _createToys()
 
 export const toyService = {
   query,
+  getById,
   save,
   remove,
-  getById,
   getEmptyToy,
-  getDefaultFilter
-
+  getDefaultFilter,
+  getDefaultSort,
+  getToyLabels,
 }
 
-function query(filterBy = {}) {
-  return httpService.get(TOY_KEY, filterBy)
- 
+function query(filterBy = {}, sortBy, pageIdx) {
+  return httpService.get(BASE_URL, { filterBy, sortBy, pageIdx })
 }
 
 function getById(toyId) {
-  return httpService.get(TOY_KEY + toyId)
+  return httpService.get(BASE_URL + toyId)
 }
 
 function remove(toyId) {
-  return httpService.delete(TOY_KEY + toyId)
+  return httpService.delete(BASE_URL + toyId)
 }
 
 function save(toy) {
-  if (toy._id) {
-      return httpService.put(TOY_KEY, toy)
-  } else {
-      return httpService.post(TOY_KEY, toy)
-  }
-  
+  const method = toy._id ? 'put' : 'post'
+  return httpService[method](BASE_URL, toy)
 }
-
-
 
 function getDefaultFilter() {
   return {
-      txt: '',
-      maxPrice: '',
-      labels: []
+    txt: '',
+    inStock: null,
+    labels: [],
+    pageIdx: 0,
   }
 }
 
-
-function getEmptyToy(name = '', price = 0) {
-  return { 
-    _id: '',
-    name, 
-    price, 
-    labels: [], 
-    createdAt: Date.now(), 
-    inStock: true, 
-  }
-}
-function _createToys() {
-  let toys = utilService.loadFromStorage(TOY_KEY)
-  if (!toys || !toys.length) {
-      toys = []
-      for (let i = 0; i < 10; i++) {
-          toys.push(_createRandToy())
-      }
-      utilService.saveToStorage(TOY_KEY, toys)
-      console.log(toys)
-  }
+function getDefaultSort() {
+  return { type: '', desc: 1 }
 }
 
-function _createRandToy() {
-  const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
-      'Outdoor', 'Battery Powered']
+function getEmptyToy() {
   return {
-      _id: utilService.makeId(),
-      name: utilService.makeLorem(2),
-      price: utilService.getRandomIntInclusive(10, 500),
-      labels: [labels[Math.floor(Math.random() * labels.length)]],
-      createdAt: Date.now(),
-      inStock: true
+    name: '',
+    price: '',
+    labels: _getRandomLabels(),
+  }
+}
+
+function getToyLabels() {
+  return [...labels]
+}
+
+function _getRandomLabels() {
+  const labelsCopy = [...labels]
+  const randomLabels = []
+  for (let i = 0; i < 2; i++) {
+    const randomIdx = Math.floor(Math.random() * labelsCopy.length)
+    randomLabels.push(labelsCopy.splice(randomIdx, 1)[0])
+  }
+  return randomLabels
+}
+
+function _createToys() {
+  let toys = utilService.loadFromStorage(STORAGE_KEY)
+  if (!toys || !toys.length) {
+    toys = gToys
+    utilService.saveToStorage(STORAGE_KEY, toys)
   }
 }

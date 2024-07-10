@@ -1,55 +1,74 @@
-// storageService.js
 export const storageService = {
-    query,
-    get,
-    post,
-    put,
-    remove
-  };
-  
-  function query(key) {
-    return new Promise((resolve, reject) => {
-      try {
-        const data = JSON.parse(localStorage.getItem(key)) || [];
-        resolve(data);
-      } catch (err) {
-        reject(err);
-      }
-    });
+  query,
+  get,
+  post,
+  put,
+  remove,
+}
+
+function query(entityType, delay = 700) {
+  var entities = JSON.parse(localStorage.getItem(entityType)) || []
+  return new Promise(resolve => setTimeout(() => resolve(entities), delay))
+}
+
+function get(entityType, entityId) {
+  return query(entityType).then(entities => {
+    const entity = entities.find(entity => entity._id === entityId)
+    if (!entity)
+      throw new Error(
+        `Get failed, cannot find entity with id: ${entityId} in: ${entityType}`
+      )
+    return entity
+  })
+}
+
+function post(entityType, newEntity) {
+  newEntity = { ...newEntity }
+  newEntity._id = _makeId()
+  return query(entityType).then(entities => {
+    entities.push(newEntity)
+    _save(entityType, entities)
+    return newEntity
+  })
+}
+
+function put(entityType, updatedEntity) {
+  return query(entityType).then(entities => {
+    const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
+    if (idx < 0)
+      throw new Error(
+        `Update failed, cannot find entity with id: ${entityId} in: ${entityType}`
+      )
+    entities.splice(idx, 1, updatedEntity)
+    _save(entityType, entities)
+    return updatedEntity
+  })
+}
+
+function remove(entityType, entityId) {
+  return query(entityType).then(entities => {
+    const idx = entities.findIndex(entity => entity._id === entityId)
+    if (idx < 0)
+      throw new Error(
+        `Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`
+      )
+    entities.splice(idx, 1)
+    _save(entityType, entities)
+  })
+}
+
+// Private functions
+
+function _save(entityType, entities) {
+  localStorage.setItem(entityType, JSON.stringify(entities))
+}
+
+function _makeId(length = 5) {
+  var text = ''
+  var possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  for (var i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
-  
-  function get(key, entityId) {
-    return query(key).then(entities =>
-      entities.find(entity => entity._id === entityId)
-    );
-  }
-  
-  function post(key, newItem) {
-    return query(key).then(entities => {
-      newItem._id = Date.now().toString(); // Replace with your ID generation logic
-      entities.push(newItem);
-      localStorage.setItem(key, JSON.stringify(entities));
-      return newItem;
-    });
-  }
-  
-  function put(key, updatedItem) {
-    return query(key).then(entities => {
-      const index = entities.findIndex(entity => entity._id === updatedItem._id);
-      if (index !== -1) {
-        entities[index] = updatedItem;
-        localStorage.setItem(key, JSON.stringify(entities));
-        return updatedItem;
-      } else {
-        throw new Error(`Item with ID ${updatedItem._id} not found.`);
-      }
-    });
-  }
-  
-  function remove(key, entityId) {
-    return query(key).then(entities => {
-      const updatedEntities = entities.filter(entity => entity._id !== entityId);
-      localStorage.setItem(key, JSON.stringify(updatedEntities));
-    });
-  }
-  
+  return text
+}

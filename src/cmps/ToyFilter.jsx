@@ -1,36 +1,36 @@
 import  { useState } from 'react'
 
 export function ToyFilter({ onFilterByName, onFilterByStock, onFilterByLabel, onSort }) {
-  const [nameFilter, setNameFilter] = useState('');
-  const [stockFilter, setStockFilter] = useState('all');
-  const [selectedLabels, setSelectedLabels] = useState([]);
-  const [sortType, setSortType] = useState('');
+  const [nameFilter, setNameFilter] = useState('')
+  const [stockFilter, setStockFilter] = useState('all')
+  const [selectedLabels, setSelectedLabels] = useState([])
+  const [sortType, setSortType] = useState('')
 
   const handleNameChange = (event) => {
-    setNameFilter(event.target.value);
-    onFilterByName(event.target.value);
-  };
+    setNameFilter(event.target.value)
+    onFilterByName(event.target.value)
+  }
 
   const handleStockChange = (event) => {
-    setStockFilter(event.target.value);
-    onFilterByStock(event.target.value);
-  };
+    setStockFilter(event.target.value)
+    onFilterByStock(event.target.value)
+  }
 
   const handleLabelChange = (event) => {
-    const { value, checked } = event.target;
+    const { value, checked } = event.target
     if (checked) {
-      setSelectedLabels([...selectedLabels, value]);
+      setSelectedLabels([...selectedLabels, value])
     } else {
-      setSelectedLabels(selectedLabels.filter(label => label !== value));
+      setSelectedLabels(selectedLabels.filter(label => label !== value))
     }
-    onFilterByLabel(selectedLabels);
-  };
+    onFilterByLabel(selectedLabels)
+  }
 
   const handleSortChange = (event) => {
-    const { value } = event.target;
-    setSortType(value);
-    onSort(value);
-  };
+    const { value } = event.target
+    setSortType(value)
+    onSort(value)
+  }
 
   return (
     <div className="toy-filter">
@@ -49,7 +49,6 @@ export function ToyFilter({ onFilterByName, onFilterByStock, onFilterByLabel, on
         <option value="Doll">Doll</option>
         <option value="Battery Powered">Battery Powered</option>
         <option value="Baby">Baby</option>
-        {/* Add more label options here */}
       </select>
       <select value={sortType} onChange={handleSortChange}>
         <option value="">Sort by...</option>
@@ -58,5 +57,5 @@ export function ToyFilter({ onFilterByName, onFilterByStock, onFilterByLabel, on
         <option value="created">Created</option>
       </select>
     </div>
-  );
+  )
 }

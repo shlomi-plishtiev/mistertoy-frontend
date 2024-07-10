@@ -1,66 +1,67 @@
 import { useEffect, useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from 'react-redux'
 
 import { ToyList } from '../cmps/ToyList'
-import { showErrorMsg,showSuccessMsg } from '../services/event-bus.service'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { ToyFilter } from '../cmps/ToyFilter'
-import { loadToys, removeToy, saveToy, setFilterBy } from '../store/actions/toyActions'
+import { loadToys, removeToyOptimistic, setFilter, setSort } from '../store/actions/toyActions.js'
 
 export function ToyIndex() {
+  const navigate = useNavigate()
 
   const toys = useSelector(storeState => storeState.toyModule.toys)
   const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
-  const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
+  const sortBy = useSelector(storeState => storeState.toyModule.sortBy)
+  const isLoading = useSelector(storeState => storeState.toyModule.flag.isLoading)
+
 
   useEffect(() => {
     loadToys()
       .catch(err => {
-        console.log('err',err);
+        console.log('err:', err)
         showErrorMsg('Cannot load toys')
       })
-  }, [filterBy])
-
-  function onSetFilter(filterBy) {
-    setFilterBy(filterBy)
-  }
+  }, [filterBy, sortBy,])
 
   function onRemoveToy(toyId) {
-    removeToy(toyId)
+    removeToyOptimistic(toyId)
       .then(() => {
+        loadToys()
         showSuccessMsg('Toy removed')
       })
       .catch(err => {
+        console.log('Cannot remove toy', err)
         showErrorMsg('Cannot remove toy')
       })
   }
-
   function onEditToy(toy) {
-    const price = +prompt('Enter new price')
-    const toyToSave = { ...toy, price }
+    navigate(`/toy/edit/${toy._id}`)
+  }
+  function onSetFilter(filterBy) {
+    setFilter(filterBy)
+  }
 
-    saveToy(toyToSave)
-      .then(savedToy => {
-        showSuccessMsg('Toy price updated')
-      })
-      .catch(err => {
-        showErrorMsg('Cannot update toy price')
-      })
+  function onSetSort(sortBy) {
+    setSort(sortBy)
   }
 
   return (
-    <div className="toy-index">
-      <Link to="/toy/edit" className="add-btn">Add a toy</Link>
-      <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
-      {!isLoading
-        ? <ToyList
-          toys={toys}
-          onRemoveToy={onRemoveToy}
-          onEditToy={onEditToy}
-        />
-        : <div>Loading...</div>
-      }
-    </div>
-  );
+    <section className="toy-index">
+      <ToyFilter
+        filterBy={filterBy}
+        onSetFilter={onSetFilter}
+        sortBy={sortBy}
+        onSetSort={onSetSort}
+      />
+      <div style={{ marginBlockStart: '0.5em', textAlign: 'center' }}>
+        <button style={{ marginInline: 0 }}>
+          <Link to="/toy/edit">Add Toy</Link>
+        </button>
+      </div>
+      {!isLoading && <ToyList toys={toys} onRemoveToy={onRemoveToy} onEditToy={onEditToy} />}
+
+    </section>
+  )
 }
 
