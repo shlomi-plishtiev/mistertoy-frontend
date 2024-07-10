@@ -1,0 +1,13 @@
+:root {
+  --clr1: #00246B;
+  --clr2: #CADCFC;
+
+  --clr1bg: #f2f3f7;
+  --clr1bg-light: #ffffff;
+  --clr2bg: #ffd56b;
+  --clr2bg-light: #f9f3e3;
+
+  --gray1: rgb(240, 240, 240);
+  --gray2: rgb(155, 155, 155);
+  --gray3: rgb(44, 44, 44);
+}

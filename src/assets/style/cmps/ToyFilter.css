@@ -1,0 +1,43 @@
+
+.toy-filter {
+  display: flex;
+  align-items: center; 
+  background-color: #f8f9fa; 
+  padding: 10px; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.toy-filter input[type="text"] {
+  flex: 1; 
+  padding: 8px; 
+  margin-right: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+.toy-filter select {
+  padding: 8px; 
+  margin-right: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  background-color: #fff;
+}
+
+.toy-filter select[multiple] {
+  height: auto; 
+}
+
+.toy-filter select option {
+  padding: 8px; 
+}
+
+.toy-filter select[multiple] option {
+  padding: 5px; 
+}
+
+.toy-filter select:focus,
+.toy-filter input:focus {
+  outline: none; 
+}

@@ -1,0 +1,10 @@
+.chart{
+    width: 35%;
+}
+.charts{
+    display: flex;
+}
+.charts h2{
+text-align: center;
+}
+

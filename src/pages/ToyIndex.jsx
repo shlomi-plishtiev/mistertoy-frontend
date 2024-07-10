@@ -60,7 +60,8 @@ export function ToyIndex() {
         </button>
       </div>
       {!isLoading && <ToyList toys={toys} onRemoveToy={onRemoveToy} onEditToy={onEditToy} />}
-
+      <div style={{ marginBlockStart: '1em', textAlign: 'center' }}>
+      </div>
     </section>
   )
 }

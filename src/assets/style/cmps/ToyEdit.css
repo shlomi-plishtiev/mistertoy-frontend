@@ -1,0 +1,52 @@
+
+.toy-edit {
+  background-color: #f8f9fa;
+  padding: 20px; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  margin-bottom: 20px; 
+  width: 50%;
+  margin: auto;
+}
+
+.toy-edit h2 {
+  font-size: 24px; 
+  margin-bottom: 20px; 
+}
+
+.toy-edit form {
+  display: flex;
+  flex-direction: column;
+}
+
+.toy-edit label {
+  margin-bottom: 8px; 
+}
+
+.toy-edit input[type="text"],
+.toy-edit input[type="number"],
+.toy-edit input[type="checkbox"] {
+  padding: 8px; 
+  margin-bottom: 12px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+.toy-edit .labels-container {
+  margin-bottom: 12px; 
+}
+
+.toy-edit button {
+  padding: 10px 20px; 
+  background-color: #007bff;
+  color: #fff; 
+  border: none; 
+  border-radius: 4px;
+  cursor: pointer; 
+  font-size: 16px; 
+  transition: background-color 0.3s;
+}
+
+.toy-edit button:hover {
+  background-color: #0056b3;
+}

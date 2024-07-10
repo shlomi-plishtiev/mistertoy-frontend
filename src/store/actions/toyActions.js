@@ -18,7 +18,6 @@ export function loadToys(pageIdx) {
 
   return toyService.query(filterBy, sortBy, pageIdx)
     .then(toys => {
-      console.log(toys);
       store.dispatch({ type: SET_TOYS, toys })
     })
     .catch(err => {
