@@ -3,9 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { toyService } from '../services/toyService'
 import { saveToy } from '../store/actions/toyActions'
+import ReactLoading from "react-loading"
 
 export function ToyEdit() {
   const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
+  const [isLoading, setIsLoading] = useState(false)
 
   const { toyId } = useParams()
   const navigate = useNavigate()
@@ -14,16 +16,21 @@ export function ToyEdit() {
 
   useEffect(() => {
     if (!toyId) return
+    setIsLoading(true)
     loadToy()
-  }, [])
+  }, [toyId])
 
   function loadToy() {
     toyService.getById(toyId)
-      .then(setToyToEdit)
+      .then(toy => {
+        setToyToEdit(toy)
+        setIsLoading(false)
+      })
       .catch(err => {
-        console.log('Had issued in toy edit:', err)
+        console.log('Had issues in toy edit:', err)
         navigate('/toy')
         showErrorMsg('Toy not found!')
+        setIsLoading(false)
       })
   }
 
@@ -45,6 +52,7 @@ export function ToyEdit() {
 
   function onSaveToy(ev) {
     ev.preventDefault()
+    setIsLoading(true)
     saveToy(toyToEdit)
       .then(() => {
         showSuccessMsg('Toy saved successfully')
@@ -52,7 +60,12 @@ export function ToyEdit() {
       })
       .catch(err => {
         showErrorMsg('Cannot save toy')
+        setIsLoading(false)
       })
+  }
+
+  if (isLoading) {
+    return <ReactLoading />
   }
 
   const { name, price, labels: selectedLabels } = toyToEdit

@@ -1,7 +1,6 @@
 /* Setup */
 @import 'setup/vars.css';
 @import 'setup/typography.css';
-@import 'setup/animations.css';
 
 /* Base */
 @import 'base/base.css';
@@ -10,11 +9,8 @@
 @import 'base/forms.css';
 
 /* Components */
-@import 'cmps/common/ErrorMessage.css';
-@import 'cmps/common/UserMsg.css';
 @import 'cmps/AppHeader.css';
 @import 'cmps/dashbord.css';
-@import 'cmps/AppFooter.css';
 @import 'cmps/HomePage.css';
 @import 'cmps/ToyIndex.css';
 @import 'cmps/ToyEdit.css';
