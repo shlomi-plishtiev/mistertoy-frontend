@@ -3,10 +3,7 @@ import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/userService.js'
 import { login, signup } from '../store/actions/userActions.js'
 
-
-
 export function LoginSignup() {
-
     const [isSignup, setIsSignUp] = useState(false)
     const [credentials, setCredentials] = useState(userService.getEmptyCredentials())
 
@@ -20,21 +17,26 @@ export function LoginSignup() {
         onSubmit(credentials)
     }
 
-
     function onSubmit(credentials) {
-        isSignup ? onSignup(credentials) : onLlogin(credentials)
+        isSignup ? onSignup(credentials) : onLogin(credentials)
     }
 
-    function onLlogin(credentials) {
-        login(credentials)
-            .then(() => { showSuccessMsg('Logged in successfully') })
-            .catch((err) => { showErrorMsg('Oops try again') })
+    async function onLogin(credentials) {
+        try {
+            await login(credentials)
+            showSuccessMsg('Logged in successfully')
+        } catch (err) {
+            showErrorMsg('Oops, try again')
+        }
     }
 
-    function onSignup(credentials) {
-        signup(credentials)
-            .then(() => { showSuccessMsg('Signed in successfully') })
-            .catch((err) => { showErrorMsg('Oops try again') })
+    async function onSignup(credentials) {
+        try {
+            await signup(credentials)
+            showSuccessMsg('Signed up successfully')
+        } catch (err) {
+            showErrorMsg('Oops, try again')
+        }
     }
 
     return (
@@ -70,13 +72,13 @@ export function LoginSignup() {
             </form>
 
             <div className="btns">
-                <a href="#" onClick={() => setIsSignUp(!isSignup)}>
+                <a href="#" onClick={(ev) => { ev.preventDefault(); setIsSignUp(!isSignup); }}>
                     {isSignup ?
                         'Already a member? Login' :
                         'New user? Signup here'
                     }
-                </a >
+                </a>
             </div>
-        </div >
+        </div>
     )
 }

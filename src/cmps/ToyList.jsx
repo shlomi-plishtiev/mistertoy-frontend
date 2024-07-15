@@ -4,13 +4,13 @@ import { ToyPreview } from "./ToyPreview"
 import { useEffect, useState } from "react"
 import ReactLoading from "react-loading"
 
-export function ToyList({ toys, onRemoveToy, onEditToy }) {
+export function ToyList({ toys, onRemoveToy, onEditToy, isAdmin  }) {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false)
-        }, 2000)
+        }, 400)
     }, [])
 
     if (isLoading) {
@@ -30,7 +30,6 @@ export function ToyList({ toys, onRemoveToy, onEditToy }) {
                         <button className="btn" onClick={() => onRemoveToy(toy._id)}>X</button>
                         <button className="btn" onClick={() => onEditToy(toy)}>Edit</button>
                         <Link to={`/toy/${toy._id}`} className="details-btn">Details</Link>
-
                     </div>
                 </li>
             ))}

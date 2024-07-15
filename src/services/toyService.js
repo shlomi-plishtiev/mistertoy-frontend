@@ -26,6 +26,8 @@ export const toyService = {
   getDefaultFilter,
   getDefaultSort,
   getToyLabels,
+  addMsg,
+  removeMsg,
 }
 
 function query(filterBy = {}, sortBy, pageIdx) {
@@ -42,7 +44,11 @@ function remove(toyId) {
 
 function save(toy) {
   const method = toy._id ? 'put' : 'post'
+  if (toy._id) {
+    return httpService[method](BASE_URL +toy._id, toy)
+  }
   return httpService[method](BASE_URL, toy)
+
 }
 
 function getDefaultFilter() {
@@ -88,4 +94,13 @@ function _createToys() {
     toys = gToys
     utilService.saveToStorage(STORAGE_KEY, toys)
   }
+}
+async function addMsg(toyId, txt) {
+  const savedMsg = await httpService.post(`toy/${toyId}/msg`, { txt })
+  return savedMsg
+}
+
+async function removeMsg(toyId, msgId) {
+  const removedId = await httpService.delete(`toy/${toyId}/msg/${msgId}`)
+  return removedId
 }

@@ -24,17 +24,17 @@ export function ToyIndex() {
       })
   }, [filterBy, sortBy,])
 
-  function onRemoveToy(toyId) {
-    removeToyOptimistic(toyId)
-      .then(() => {
-        loadToys()
-        showSuccessMsg('Toy removed')
-      })
-      .catch(err => {
-        console.log('Cannot remove toy', err)
-        showErrorMsg('Cannot remove toy')
-      })
+  async function onRemoveToy(toyId) {
+    await removeToyOptimistic(toyId)
+    try {
+      loadToys()
+      showSuccessMsg('Toy removed')
+    } catch (err) {
+      console.log('Cannot remove toy', err)
+      showErrorMsg('Cannot remove toy')
+    }
   }
+
   function onEditToy(toy) {
     navigate(`/toy/edit/${toy._id}`)
   }
@@ -55,11 +55,11 @@ export function ToyIndex() {
         onSetSort={onSetSort}
       />
       <div style={{ marginBlockStart: '0.5em', textAlign: 'center' }}>
-        <button className='btn-add' style={{ marginInline: 0,fontSize:'18px' }}>
+        <button className='btn-add' style={{ marginInline: 0, fontSize: '18px' }}>
           <Link to="/toy/edit">Add Toy</Link>
         </button>
       </div>
-      
+
       {!isLoading && <ToyList toys={toys} onRemoveToy={onRemoveToy} onEditToy={onEditToy} />}
       <div style={{ marginBlockStart: '1em', textAlign: 'center' }}>
       </div>

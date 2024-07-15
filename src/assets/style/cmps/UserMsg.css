@@ -1,0 +1,39 @@
+.user-msg {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 200px;
+    max-width: 400px;
+    z-index: 1000;
+  }
+  
+  .user-msg.success {
+    background-color: #4caf50;
+  }
+  
+  .user-msg.error {
+    background-color: #f44336;
+  }
+  
+  .user-msg button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .user-msg button:hover {
+    color: #ccc;
+  }
+  

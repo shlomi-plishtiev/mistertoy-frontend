@@ -1,0 +1,114 @@
+.toy-details {
+    text-align: center;
+    padding: 20px;
+    /* background-color: #c79a9a; */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .toy-details h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .toy-details img {
+  width: 250px;
+  }
+  
+  .toy-details h1 span {
+    font-weight: normal;
+  }
+  
+  .toy-details img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 10px;
+  }
+  
+  .toy-details .green {
+    color: green;
+  }
+  
+  .toy-details .red {
+    color: red;
+  }
+  
+  .toy-details ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .toy-details ul li {
+    background-color: #fff;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    margin: auto;
+    margin-top: 10px;
+  }
+  
+  .toy-details ul li button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .toy-details ul li button:hover {
+    color: darkred;
+  }
+  
+  .toy-details .login-form-msg {
+    margin-top: 20px;
+  }
+  
+  .toy-details .login-form-msg input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .toy-details .login-form-msg button , .header-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .toy-details .login-form-msg button:hover , .header-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .toy-details button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .toy-details button:hover {
+    background-color: #0056b3;
+  }
+  .header-a{
+    font-size: 18px;
+    color: #fff;
+  }
+  .logout-header{
+    margin-top: -25px;
+  }

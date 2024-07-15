@@ -20,18 +20,18 @@ export function ToyEdit() {
     loadToy()
   }, [toyId])
 
-  function loadToy() {
-    toyService.getById(toyId)
-      .then(toy => {
-        setToyToEdit(toy)
-        setIsLoading(false)
-      })
-      .catch(err => {
-        console.log('Had issues in toy edit:', err)
-        navigate('/toy')
-        showErrorMsg('Toy not found!')
-        setIsLoading(false)
-      })
+  async function loadToy() {
+    setIsLoading(false)
+    try {
+      const toy = await toyService.getById(toyId)
+      setToyToEdit(toy)
+    } catch (err) {
+      console.log('Had issues in toy edit:', err)
+      navigate('/toy')
+      showErrorMsg('Toy not found!')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function handleChange({ target }) {
@@ -50,18 +50,18 @@ export function ToyEdit() {
     })
   }
 
-  function onSaveToy(ev) {
+  async function onSaveToy(ev) {
     ev.preventDefault()
     setIsLoading(true)
-    saveToy(toyToEdit)
-      .then(() => {
-        showSuccessMsg('Toy saved successfully')
-        navigate('/toy')
-      })
-      .catch(err => {
-        showErrorMsg('Cannot save toy')
-        setIsLoading(false)
-      })
+    try {
+      await saveToy(toyToEdit)
+      showSuccessMsg('Toy saved successfully')
+      navigate('/toy')
+    } catch (err) {
+      showErrorMsg('Cannot save toy')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   if (isLoading) {

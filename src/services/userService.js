@@ -15,41 +15,63 @@ export const userService = {
     saveUser
 }
 
-function query() {
-    return httpService.get(BASE_URL)
-        .then(res => res.data)
+async function query() {
+    try {
+        const res = await httpService.get(BASE_URL)
+        return res.data
+    } catch (error) {
+        console.error('Error querying users:', error)
+        throw error
+    }
 }
 
-function getById(userId) {
-    return httpService.get(BASE_URL + userId)
-        .then(res => res.data)
+async function getById(userId) {
+    try {
+        const res = await httpService.get(`${BASE_URL}${userId}`)
+        return res.data
+    } catch (error) {
+        console.error(`Error getting user by ID (${userId}):`, error)
+        throw error
+    }
 }
 
-function login({ username, password }) {
-    return httpService.post('/api/auth/login', { username, password })
-        .then(res => res.data)
-        .then(user => {
-            _setLoggedinUser(user)
-            return user
-        })
+async function login({ username, password }) {
+    try {
+        const res = await httpService.post('auth/login', { username, password })
+        const user = res
+        _setLoggedinUser(user)
+        return user
+    } catch (error) {
+        console.error('Error logging in:', error)
+        throw error
+    }
 }
 
-function signup({ username, password, fullname }) {
-    const user = { username, password, fullname, balance: 10000, activities: []}
-    user.createdAt = user.updatedAt = Date.now()
-    return httpService.post('/api/auth/signup', user)
-        .then(res => res.data)
-        .then(user => {
-            _setLoggedinUser(user)
-            return user
-        })
+async function signup({ username, password, fullname }) {
+    console.log(username)
+    try {
+        const user = { username, password, fullname, balance: 10000, activities: [], createdAt: Date.now(), updatedAt: Date.now() }
+        const res = await httpService.post('auth/signup', user)
+        const newUser = res
+
+        console.log(newUser);
+
+        _setLoggedinUser(newUser)
+        return newUser
+    } catch (error) {
+        console.error('Error signing up:', error)
+        throw error
+    }
 }
 
-function logout() {
-    return httpService.post('/api/auth/logout')
-        .then(() => {
-            sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
-        })
+async function logout() {
+    try {
+        await httpService.post('auth/logout')
+        sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+    } catch (error) {
+        console.error('Error logging out:', error)
+        throw error
+    }
 }
 
 function getLoggedinUser() {
@@ -62,43 +84,39 @@ function _setLoggedinUser(user) {
     return userToSave
 }
 
-function updateBalance(diff) {
+async function updateBalance(diff) {
     const loggedInUser = getLoggedinUser()
-    if (!loggedInUser) return Promise.reject(new Error('User not logged in'))
-    return userService.getById(loggedInUser._id)
-        .then(user => {
-            if (!user) {
-                throw new Error('User not found')
-            }
-            user.balance += diff
-            return saveUser(user)
-        })
-        .then(user => {
-            sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-            return user.balance
-        })
-        .catch(error => {
-            console.error('Error updating balance:', error)
-            throw error
-        })
+    if (!loggedInUser) throw new Error('User not logged in')
+
+    try {
+        let user = await getById(loggedInUser._id)
+        if (!user) throw new Error('User not found')
+
+        user.balance += diff
+        user = await saveUser(user)
+        sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+        return user.balance
+    } catch (error) {
+        console.error('Error updating balance:', error)
+        throw error
+    }
 }
 
-function saveUser(userToEdit) {
-    return axios.put(BASE_URL + userToEdit._id, userToEdit)
-        .then(() => {
-            _setLoggedinUser(userToEdit)
-            return userToEdit
-        })
-        .catch(error => {
-            console.error('Error saving user:', error)
-            throw error
-        })
+async function saveUser(userToEdit) {
+    try {
+        const res = await httpService.put(`${BASE_URL}${userToEdit._id}`, userToEdit)
+        _setLoggedinUser(res.data)
+        return res.data
+    } catch (error) {
+        console.error('Error saving user:', error)
+        throw error
+    }
 }
 
 function getEmptyCredentials() {
     return {
-        fullname: 'shlomi',
-        username: 'shlomi',
-        password: '123',
+        fullname: '',
+        username: '',
+        password: '',
     }
 }

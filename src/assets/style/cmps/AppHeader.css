@@ -2,10 +2,6 @@
   display: flex;
   justify-content: center; 
   background-color: #7ccaf4;
-  /* background: #32E5FF;
-  background: -moz-linear-gradient(left, #32E5FF 0%, #3790FF 50%, #D05454 100%);
-  background: -webkit-linear-gradient(left, #32E5FF 0%, #3790FF 50%, #D05454 100%);
-  background: linear-gradient(to right, #32E5FF 0%, #3790FF 50%, #D05454 100%); */
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 

@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 
 export function ToyFilter({ onFilterByName, onFilterByStock, onFilterByLabel, onSort }) {
   const [nameFilter, setNameFilter] = useState('')
